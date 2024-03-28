@@ -2092,8 +2092,8 @@
     <accept_field/>
     <accept_stepname/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata\participant-overview.xlsx</name>
-      <filemask/>
+      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata\</name>
+      <filemask>.*participant-overview*.xlsx</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
