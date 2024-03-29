@@ -21,8 +21,9 @@ USE `DW_PMData` ;
 -- Table `DW_PMData`.`participant`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`participant` (
-  `participant_id` INT NOT NULL,
+  `participant_id` INT NOT NULL AUTO_INCREMENT,
   `code` INT NULL,
+  `age` INT NULL,
   `height` FLOAT NULL,
   `gender` VARCHAR(20) NULL,
   `group` VARCHAR(1) NULL,
@@ -35,7 +36,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`injury`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`injury` (
-  `injury_id` INT NOT NULL,
+  `injury_id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
   PRIMARY KEY (`injury_id`))
@@ -61,7 +62,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`meal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`meal` (
-  `meal_id` INT NOT NULL,
+  `meal_id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NULL,
   PRIMARY KEY (`meal_id`))
 ENGINE = InnoDB;
@@ -148,7 +149,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`activity`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`activity` (
-  `activity_id` INT NOT NULL,
+  `activity_id` INT NOT NULL AUTO_INCREMENT,
   `code` INT NULL,
   `name` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
@@ -161,7 +162,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`heart_rate_zone`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`heart_rate_zone` (
-  `heart_rate_zone_id` INT NOT NULL,
+  `heart_rate_zone_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NULL,
   PRIMARY KEY (`heart_rate_zone_id`))
 ENGINE = InnoDB;
@@ -171,7 +172,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`sleep_type`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep_type` (
-  `sleep_type_id` INT NOT NULL,
+  `sleep_type_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
   PRIMARY KEY (`sleep_type_id`))
