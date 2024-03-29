@@ -22,7 +22,7 @@ USE `DW_PMData` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`participant` (
   `participant_id` INT NOT NULL AUTO_INCREMENT,
-  `code` INT NULL,
+  `code` VARCHAR(5) NULL,
   `age` INT NULL,
   `height` FLOAT NULL,
   `gender` VARCHAR(20) NULL,
