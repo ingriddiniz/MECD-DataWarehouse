@@ -47,7 +47,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`date`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`date` (
-  `day_id` INT NOT NULL,
+  `day_id` INT NOT NULL AUTO_INCREMENT,
   `day` INT NULL,
   `month_id` INT NULL,
   `month` INT NULL,
@@ -200,7 +200,7 @@ ENGINE = InnoDB;
 -- Table `DW_PMData`.`instant`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DW_PMData`.`instant` (
-  `minute_id` INT NOT NULL,
+  `minute_id` INT NOT NULL AUTO_INCREMENT,
   `minute` INT NULL,
   `hour_id` INT NULL,
   `hour` INT NULL,
