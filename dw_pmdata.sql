@@ -153,8 +153,7 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`activity` (
   `code` INT NULL,
   `name` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
-  PRIMARY KEY (`activity_id`),
-  UNIQUE INDEX `code_UNIQUE` (`code` ASC) VISIBLE)
+  PRIMARY KEY (`activity_id`))
 ENGINE = InnoDB;
 
 
