@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`date` (
   `day` INT NULL,
   `month_id` INT NULL,
   `month` INT NULL,
-  `month_name` INT NULL,
+  `month_name` VARCHAR(20) NULL,
   `year_id` INT NULL,
   `year` INT NULL,
   PRIMARY KEY (`day_id`))
