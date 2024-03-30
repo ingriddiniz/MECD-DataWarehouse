@@ -436,7 +436,80 @@
   </info>
   <notepads>
   </notepads>
+  <connection>
+    <name>dw_local_project</name>
+    <server>127.0.0.1</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>DW_PMData</database>
+    <port>3306</port>
+    <username>root</username>
+    <password>Encrypted 2be98afc86aa7f2ada51ebc79dac3fdfa</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+        <attribute>500</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCursorFetch</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
+    <hop>
+      <from>Calories input</from>
+      <to>Calculator</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculator</from>
+      <to>date output</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Calories input</name>
@@ -462,7 +535,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*calories.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -527,8 +600,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>224</yloc>
+      <xloc>112</xloc>
+      <yloc>544</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -556,7 +629,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*distance.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -621,7 +694,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>304</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -650,7 +723,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*exercise.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -858,7 +931,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>288</xloc>
       <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
@@ -902,7 +975,7 @@
     <length>Characters</length>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>D:/Documents/FEUP/chairs/year1/data_warehouse/project/osfstorage-archive/pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*injury.csv</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -983,7 +1056,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
+      <xloc>560</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1012,7 +1085,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*lightly_active_minutes.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1083,6 +1156,141 @@
     </GUI>
   </step>
   <step>
+    <name>Microsoft Excel input</name>
+    <type>ExcelInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
+      <filemask>.*participant-overview*.xlsx</filemask>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>participant_ID</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>age</name>
+        <type>Number</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>height</name>
+        <type>Number</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>gender</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>A-B_person</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>Sheet1</name>
+        <startrow>1</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension>warning</bad_line_files_extension>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension>error</error_line_files_extension>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension>line</line_number_files_extension>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>SAX_POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>576</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Moderate active minutes input</name>
     <type>JsonInput</type>
     <description/>
@@ -1106,7 +1314,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*moderately_active_minutes.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1215,7 +1423,7 @@
     <length>Characters</length>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>D:/Documents/FEUP/chairs/year1/data_warehouse/project/osfstorage-archive/pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*reporting.csv</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1356,7 +1564,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
+      <xloc>464</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1400,7 +1608,7 @@
     <length>Characters</length>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>D:/Documents/FEUP/chairs/year1/data_warehouse/project/osfstorage-archive/pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*srpe.csv</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1496,7 +1704,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
+      <xloc>656</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1525,7 +1733,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*sedentary_minutes.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1619,7 +1827,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*sleep.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1788,7 +1996,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>288</xloc>
       <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1817,7 +2025,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*steps.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1872,7 +2080,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>288</xloc>
       <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1901,7 +2109,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*time_in_heart_rate_zones.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -1995,7 +2203,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>C:\Users\euing\Desktop\2024.1\DW\osfstorage-archive\pmdata\</name>
       <filemask>.*very_active_minutes.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -2066,8 +2274,8 @@
     </GUI>
   </step>
   <step>
-    <name>Microsoft Excel input</name>
-    <type>ExcelInput</type>
+    <name>date output</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2076,116 +2284,29 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <header>Y</header>
-    <noempty>Y</noempty>
-    <stoponempty>N</stoponempty>
-    <filefield/>
-    <sheetfield/>
-    <sheetrownumfield/>
-    <rownumfield/>
-    <sheetfield/>
-    <filefield/>
-    <limit>0</limit>
-    <encoding/>
-    <add_to_result_filenames>Y</add_to_result_filenames>
-    <accept_filenames>N</accept_filenames>
-    <accept_field/>
-    <accept_stepname/>
-    <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata\</name>
-      <filemask>.*participant-overview*.xlsx</filemask>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
+    <connection>dw_local_project</connection>
+    <schema>dw_pmdata</schema>
+    <table>date</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
     <fields>
       <field>
-        <name>participant_ID</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>age</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>height</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>gender</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>A-B_person</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
+        <column_name>day</column_name>
+        <stream_name>day</stream_name>
       </field>
     </fields>
-    <sheets>
-      <sheet>
-        <name>Sheet1</name>
-        <startrow>1</startrow>
-        <startcol>0</startcol>
-      </sheet>
-    </sheets>
-    <strict_types>N</strict_types>
-    <error_ignored>N</error_ignored>
-    <error_line_skipped>N</error_line_skipped>
-    <bad_line_files_destination_directory/>
-    <bad_line_files_extension>warning</bad_line_files_extension>
-    <error_line_files_destination_directory/>
-    <error_line_files_extension>error</error_line_files_extension>
-    <line_number_files_destination_directory/>
-    <line_number_files_extension>line</line_number_files_extension>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <spreadsheet_type>SAX_POI</spreadsheet_type>
-    <password>Encrypted </password>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -2195,8 +2316,79 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>529</xloc>
-      <yloc>147</yloc>
+      <xloc>656</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculator</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>day</field_name>
+      <calc_type>DAY_OF_MONTH</calc_type>
+      <field_a>date_time</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>month</field_name>
+      <calc_type>MONTH_OF_DATE</calc_type>
+      <field_a>date_time</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>year</field_name>
+      <calc_type>YEAR_OF_DATE</calc_type>
+      <field_a>date_time</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
