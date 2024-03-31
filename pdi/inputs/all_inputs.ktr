@@ -1481,7 +1481,7 @@
     <accept_field/>
     <accept_stepname/>
     <separator>,</separator>
-    <enclosure/>
+    <enclosure>"</enclosure>
     <enclosure_breaks>N</enclosure_breaks>
     <escapechar/>
     <header>Y</header>
