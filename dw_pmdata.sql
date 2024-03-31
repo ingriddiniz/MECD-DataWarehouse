@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema DW_PMData
+-- Schema dw_pmdata
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema DW_PMData
+-- Schema dw_pmdata
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `DW_PMData` DEFAULT CHARACTER SET utf8 ;
-USE `DW_PMData` ;
+CREATE SCHEMA IF NOT EXISTS `dw_pmdata` DEFAULT CHARACTER SET utf8 ;
+USE `dw_pmdata` ;
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`participant`
+-- Table `dw_pmdata`.`participant`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`participant` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`participant` (
   `participant_id` INT NOT NULL AUTO_INCREMENT,
   `code` VARCHAR(5) NULL,
   `age` INT NULL,
@@ -33,9 +33,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`injury`
+-- Table `dw_pmdata`.`injury`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`injury` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`injury` (
   `injury_id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
@@ -44,9 +44,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`date`
+-- Table `dw_pmdata`.`date`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`date` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`date` (
   `day_id` INT NOT NULL AUTO_INCREMENT,
   `day` INT NULL,
   `month_id` INT NULL,
@@ -59,9 +59,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`meal`
+-- Table `dw_pmdata`.`meal`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`meal` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`meal` (
   `meal_id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NULL,
   PRIMARY KEY (`meal_id`))
@@ -69,41 +69,41 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`meal_bridge`
+-- Table `dw_pmdata`.`meal_bridge`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`meal_bridge` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`meal_bridge` (
   `meal_bridge_id` INT NOT NULL,
   `meal_id` INT NOT NULL,
   PRIMARY KEY (`meal_bridge_id`, `meal_id`),
   INDEX `fk_meals_bridge_meal_idx` (`meal_id` ASC) VISIBLE,
   CONSTRAINT `fk_meals_bridge_meal`
     FOREIGN KEY (`meal_id`)
-    REFERENCES `DW_PMData`.`meal` (`meal_id`)
+    REFERENCES `dw_pmdata`.`meal` (`meal_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`injury_bridge`
+-- Table `dw_pmdata`.`injury_bridge`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`injury_bridge` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`injury_bridge` (
   `injury_bridge_id` INT NOT NULL,
   `injury_id` INT NOT NULL,
   PRIMARY KEY (`injury_bridge_id`, `injury_id`),
   INDEX `fk_injury_bridge_injury_idx` (`injury_id` ASC) VISIBLE,
   CONSTRAINT `fk_injury_bridge_injury`
     FOREIGN KEY (`injury_id`)
-    REFERENCES `DW_PMData`.`injury` (`injury_id`)
+    REFERENCES `dw_pmdata`.`injury` (`injury_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`daily`
+-- Table `dw_pmdata`.`daily`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`daily` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`daily` (
   `participant_id` INT NOT NULL,
   `day_id` INT NOT NULL,
   `meal_bridge_id` INT NOT NULL,
@@ -124,31 +124,31 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`daily` (
   INDEX `fk_daily_date_idx` (`day_id` ASC) INVISIBLE,
   CONSTRAINT `fk_daily_participant`
     FOREIGN KEY (`participant_id`)
-    REFERENCES `DW_PMData`.`participant` (`participant_id`)
+    REFERENCES `dw_pmdata`.`participant` (`participant_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_daily_meal_bridge`
     FOREIGN KEY (`meal_bridge_id`)
-    REFERENCES `DW_PMData`.`meal_bridge` (`meal_bridge_id`)
+    REFERENCES `dw_pmdata`.`meal_bridge` (`meal_bridge_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_daily_injury_bridge`
     FOREIGN KEY (`injury_bridge_id`)
-    REFERENCES `DW_PMData`.`injury_bridge` (`injury_bridge_id`)
+    REFERENCES `dw_pmdata`.`injury_bridge` (`injury_bridge_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_daily_date`
     FOREIGN KEY (`day_id`)
-    REFERENCES `DW_PMData`.`date` (`day_id`)
+    REFERENCES `dw_pmdata`.`date` (`day_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`activity`
+-- Table `dw_pmdata`.`activity`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`activity` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`activity` (
   `activity_id` INT NOT NULL AUTO_INCREMENT,
   `code` INT NULL,
   `name` VARCHAR(20) NULL,
@@ -158,9 +158,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`heart_rate_zone`
+-- Table `dw_pmdata`.`heart_rate_zone`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`heart_rate_zone` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`heart_rate_zone` (
   `heart_rate_zone_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NULL,
   PRIMARY KEY (`heart_rate_zone_id`))
@@ -168,9 +168,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`sleep_type`
+-- Table `dw_pmdata`.`sleep_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep_type` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`sleep_type` (
   `sleep_type_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NULL,
   `level` VARCHAR(20) NULL,
@@ -179,9 +179,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`sleep_bridge`
+-- Table `dw_pmdata`.`sleep_bridge`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep_bridge` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`sleep_bridge` (
   `sleep_bridge_id` INT NOT NULL,
   `sleep_type_id` INT NOT NULL,
   `weight` FLOAT NULL,
@@ -189,16 +189,16 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep_bridge` (
   PRIMARY KEY (`sleep_bridge_id`, `sleep_type_id`),
   CONSTRAINT `fk_sleep_bridge_sleep_type`
     FOREIGN KEY (`sleep_type_id`)
-    REFERENCES `DW_PMData`.`sleep_type` (`sleep_type_id`)
+    REFERENCES `dw_pmdata`.`sleep_type` (`sleep_type_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`instant`
+-- Table `dw_pmdata`.`instant`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`instant` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`instant` (
   `minute_id` INT NOT NULL AUTO_INCREMENT,
   `minute` INT NULL,
   `hour_id` INT NULL,
@@ -209,9 +209,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`sleep`
+-- Table `dw_pmdata`.`sleep`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`sleep` (
   `participant_id` INT NOT NULL,
   `minute_id` INT NOT NULL,
   `day_id` INT NOT NULL,
@@ -229,31 +229,31 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`sleep` (
   INDEX `fk_sleep_date_idx` (`day_id` ASC) VISIBLE,
   CONSTRAINT `fk_sleep_participant`
     FOREIGN KEY (`participant_id`)
-    REFERENCES `DW_PMData`.`participant` (`participant_id`)
+    REFERENCES `dw_pmdata`.`participant` (`participant_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sleep_sleep_bridge`
     FOREIGN KEY (`sleep_bridge_id`)
-    REFERENCES `DW_PMData`.`sleep_bridge` (`sleep_bridge_id`)
+    REFERENCES `dw_pmdata`.`sleep_bridge` (`sleep_bridge_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sleep_instant`
     FOREIGN KEY (`minute_id`)
-    REFERENCES `DW_PMData`.`instant` (`minute_id`)
+    REFERENCES `dw_pmdata`.`instant` (`minute_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sleep_date`
     FOREIGN KEY (`day_id`)
-    REFERENCES `DW_PMData`.`date` (`day_id`)
+    REFERENCES `dw_pmdata`.`date` (`day_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`activity_bridge`
+-- Table `dw_pmdata`.`activity_bridge`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`activity_bridge` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`activity_bridge` (
   `activity_bridge_id` INT NOT NULL,
   `activity_id` INT NOT NULL,
   `weight` FLOAT NULL,
@@ -261,16 +261,16 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`activity_bridge` (
   INDEX `fk_activity_bridge_activity_idx` (`activity_id` ASC) VISIBLE,
   CONSTRAINT `fk_activity_bridge_activity`
     FOREIGN KEY (`activity_id`)
-    REFERENCES `DW_PMData`.`activity` (`activity_id`)
+    REFERENCES `dw_pmdata`.`activity` (`activity_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`heart_rate_zone_bridge`
+-- Table `dw_pmdata`.`heart_rate_zone_bridge`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`heart_rate_zone_bridge` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`heart_rate_zone_bridge` (
   `heart_rate_zone_bridge_id` INT NOT NULL,
   `heart_rate_zone_id` INT NOT NULL,
   `weight` FLOAT NULL,
@@ -278,16 +278,16 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`heart_rate_zone_bridge` (
   INDEX `fk_heart_rate_zone_bridge_heart_rate_zone_idx` (`heart_rate_zone_id` ASC) VISIBLE,
   CONSTRAINT `fk_heart_rate_zone_bridge_heart_rate_zone`
     FOREIGN KEY (`heart_rate_zone_id`)
-    REFERENCES `DW_PMData`.`heart_rate_zone` (`heart_rate_zone_id`)
+    REFERENCES `dw_pmdata`.`heart_rate_zone` (`heart_rate_zone_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `DW_PMData`.`exercise`
+-- Table `dw_pmdata`.`exercise`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DW_PMData`.`exercise` (
+CREATE TABLE IF NOT EXISTS `dw_pmdata`.`exercise` (
   `participant_id` INT NOT NULL,
   `heart_rate_zone_bridge_id` INT NOT NULL,
   `day_id` INT NOT NULL,
@@ -309,27 +309,27 @@ CREATE TABLE IF NOT EXISTS `DW_PMData`.`exercise` (
   INDEX `fk_exercise_date_idx` (`day_id` ASC) VISIBLE,
   CONSTRAINT `fk_exercise_participant`
     FOREIGN KEY (`participant_id`)
-    REFERENCES `DW_PMData`.`participant` (`participant_id`)
+    REFERENCES `dw_pmdata`.`participant` (`participant_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exercise_activity_bridge`
     FOREIGN KEY (`activity_bridge_id`)
-    REFERENCES `DW_PMData`.`activity_bridge` (`activity_bridge_id`)
+    REFERENCES `dw_pmdata`.`activity_bridge` (`activity_bridge_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exercise_heart_rate_zone_bridge`
     FOREIGN KEY (`heart_rate_zone_bridge_id`)
-    REFERENCES `DW_PMData`.`heart_rate_zone_bridge` (`heart_rate_zone_bridge_id`)
+    REFERENCES `dw_pmdata`.`heart_rate_zone_bridge` (`heart_rate_zone_bridge_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exercise_instant`
     FOREIGN KEY (`minute_id`)
-    REFERENCES `DW_PMData`.`instant` (`minute_id`)
+    REFERENCES `dw_pmdata`.`instant` (`minute_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exercise_date`
     FOREIGN KEY (`day_id`)
-    REFERENCES `DW_PMData`.`date` (`day_id`)
+    REFERENCES `dw_pmdata`.`date` (`day_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
