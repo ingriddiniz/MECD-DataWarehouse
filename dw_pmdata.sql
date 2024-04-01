@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `dw_pmdata`.`sleep` (
   `day_id` INT NOT NULL,
   `sleep_bridge_id` INT NOT NULL,
   `duration` INT NULL,
-  `min_to_fall_a_sleep` INT NULL,
+  `min_to_fall_asleep` INT NULL,
   `min_awake` INT NULL,
   `min_asleep` INT NULL,
   `efficiency` INT NULL,
