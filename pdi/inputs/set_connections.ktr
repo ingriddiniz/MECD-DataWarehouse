@@ -530,12 +530,12 @@
     </fields>
     <data>
       <line>
-        <item>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pmdata</item>
+        <item>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</item>
         <item>127.0.0.1</item>
         <item>dw_pmdata</item>
         <item>3306</item>
-        <item>CHANGE_TO_YOUR_USERNAME</item>
-        <item>CHANGE_TO_YOUR_PAAWD</item>
+        <item>root</item>
+        <item>admin</item>
       </line>
     </data>
     <attributes/>
@@ -611,7 +611,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>416</xloc>
       <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
