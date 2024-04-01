@@ -48,6 +48,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dw_pmdata`.`date` (
   `day_id` INT NOT NULL AUTO_INCREMENT,
+  `date` VARCHAR(20) NULL,  
   `day` INT NULL,
   `month_id` INT NULL,
   `month` INT NULL,
