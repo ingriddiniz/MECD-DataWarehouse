@@ -574,7 +574,7 @@
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
+      <include_subfolders>Y</include_subfolders>
       <name/>
       <filemask/>
       <exclude_filemask/>
