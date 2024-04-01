@@ -6,6 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -436,14 +437,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>dw_pmdata</name>
-    <server>127.0.0.1</server>
+    <name>dw_local_server</name>
+    <server>${HOSTNAME}</server>
     <type>MYSQL</type>
     <access>Native</access>
-    <database>dw_pmdata</database>
-    <port>3306</port>
-    <username>root</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce71da9fa6d4</password>
+    <database>${DATABASE_NAME}</database>
+    <port>${PORT}</port>
+    <username>${USERNAME}</username>
+    <password>${PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -470,7 +471,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
+        <attribute>${PORT}</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -511,41 +512,41 @@
     </hop>
     <hop>
       <from>Date input</from>
-      <to>Sort rows</to>
+      <to>Sort input by y,m,d</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
+      <from>Sort input by y,m,d</from>
       <to>Get day_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Calculator</from>
-      <to>Sort rows 2</to>
+      <to>Sort by year, month, day</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2</from>
+      <from>Sort by year, month, day</from>
       <to>Get day_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Instant input</from>
-      <to>Sort rows 3</to>
+      <to>Sort input by hour, min</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 3</from>
+      <from>Sort input by hour, min</from>
       <to>Get minute_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Get day_id</from>
-      <to>Sort rows 3 2</to>
+      <to>Sort by hour, min</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 3 2</from>
+      <from>Sort by hour, min</from>
       <to>Get minute_id</to>
       <enabled>Y</enabled>
     </hop>
@@ -836,27 +837,22 @@
     </hop>
     <hop>
       <from>Append streams 2 2 2 2 2</from>
-      <to>Sort awake 2</to>
+      <to>Sort by participant, log, sleep_type</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Get minute_id</from>
-      <to>Select values 2</to>
+      <to>Select fact fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>Sort awake 2 2</to>
+      <from>Select fact fields</from>
+      <to>Sort by participant and log</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort awake 2 2</from>
-      <to>Merge join 3 2 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values 2 2</from>
-      <to>Merge join 3 2 2</to>
+      <from>Sort by participant and log</from>
+      <to>Add sleep_bridge_id to fact</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -866,97 +862,137 @@
     </hop>
     <hop>
       <from>Participant input</from>
-      <to>Sort rows 4</to>
+      <to>Sort input by code</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Get participant_code</from>
-      <to>Sort rows 4 2</to>
+      <to>Sort by code</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 4 2</from>
+      <from>Sort by code</from>
       <to>Get participant_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 4</from>
+      <from>Sort input by code</from>
       <to>Get participant_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet)</from>
-      <to>Sleep fact load</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Merge join 3 2 2</from>
-      <to>Select values 2 2 3</to>
+      <from>Add sleep_bridge_id to fact</from>
+      <to>Remove fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2 2 3</from>
-      <to>Unique rows (HashSet)</to>
+      <from>Remove fields</from>
+      <to>Unique rows (fact)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort awake 2</from>
+      <from>Sort by participant, log, sleep_type</from>
       <to>Concat fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2 2 2 2</from>
-      <to>Unique rows (HashSet) 2 2</to>
+      <from>Select temporary ID</from>
+      <to>Get unique rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet) 2 2</from>
-      <to>Add sleep_bridge_id</to>
+      <from>Get unique rows</from>
+      <to>Create sleep_bridge_id</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Concat fields</from>
-      <to>Sort rows 5</to>
+      <to>Sort by temporary ID</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Create sleep_bridge_id</from>
+      <to>Add sleep_bridge_id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort by temporary ID</from>
+      <to>Add sleep_bridge_id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort by temporary ID</from>
+      <to>Select temporary ID</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Add sleep_bridge_id</from>
-      <to>Merge join 4</to>
+      <to>Select sleep_bridge fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 5</from>
-      <to>Merge join 4</to>
+      <from>Select sleep_bridge fields</from>
+      <to>Get unique rows (sleep_bridge)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join 4</from>
+      <from>Get unique rows (sleep_bridge)</from>
+      <to>Sleep bridge load</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows (fact)</from>
+      <to>Wait until Sleep bridge load finishes</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Wait until Sleep bridge load finishes</from>
+      <to>Sleep fact load</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get connection vars</from>
+      <to>Sleep input</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get connection vars</from>
+      <to>Participant input</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get connection vars</from>
+      <to>Date input</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get connection vars</from>
+      <to>Instant input</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get connection vars</from>
+      <to>Sleep level type input</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add sleep_bridge_id</from>
       <to>Select values 2 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 5</from>
-      <to>Select values 2 2 2 2</to>
+      <from>Select values 2 2</from>
+      <to>Sort by participant and log 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join 4</from>
-      <to>Select values 2 2 2</to>
+      <from>Sort by participant and log 2</from>
+      <to>Add sleep_bridge_id to fact</to>
       <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values 2 2 2</from>
-      <to>Unique rows (HashSet) 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Unique rows (HashSet) 2</from>
-      <to>Sleep fact load 2</to>
-      <enabled>N</enabled>
     </hop>
   </order>
   <step>
-    <name>Add sequence</name>
+    <name>Create sleep_bridge_id</name>
     <type>Sequence</type>
     <description/>
     <distribute>Y</distribute>
@@ -966,16 +1002,16 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <valuename>valuename</valuename>
+    <valuename>sleep_bridge_id</valuename>
     <use_database>N</use_database>
-    <connection/>
+    <connection>dw_local_server</connection>
     <schema/>
     <seqname>SEQ_</seqname>
     <use_counter>Y</use_counter>
     <counter_name/>
     <start_at>1</start_at>
     <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
+    <max_value>999999999999</max_value>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -985,8 +1021,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1608</xloc>
-      <yloc>964</yloc>
+      <xloc>928</xloc>
+      <yloc>1040</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1012,8 +1048,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>240</yloc>
+      <xloc>1568</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1039,8 +1075,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>336</yloc>
+      <xloc>1568</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1066,8 +1102,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>432</yloc>
+      <xloc>1568</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1093,8 +1129,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>544</yloc>
+      <xloc>1568</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1120,8 +1156,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>656</yloc>
+      <xloc>1568</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1147,8 +1183,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>736</yloc>
+      <xloc>1568</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1166,16 +1202,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_asleep</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_classic</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1188,8 +1231,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>544</yloc>
+      <xloc>1456</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1207,16 +1250,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_awake</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_classic</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1229,8 +1279,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>656</yloc>
+      <xloc>1456</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1330,8 +1380,94 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>224</yloc>
+      <xloc>736</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Concat fields</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <separator>-</separator>
+    <enclosure/>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name/>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>participant_id</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>log_id</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+      <targetFieldName>temp_id</targetFieldName>
+      <targetFieldLength>50</targetFieldLength>
+      <removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1346,7 +1482,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <sql>SELECT * FROM dw_pmdata.date</sql>
     <limit>0</limit>
     <lookup/>
@@ -1526,8 +1662,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>320</yloc>
+      <xloc>128</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1545,16 +1681,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_deep</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_stages</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1567,8 +1710,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>144</yloc>
+      <xloc>1456</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1611,8 +1754,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>544</yloc>
+      <xloc>1088</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1655,8 +1798,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>656</yloc>
+      <xloc>1088</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1699,8 +1842,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>144</yloc>
+      <xloc>1088</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1743,8 +1886,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>432</yloc>
+      <xloc>1088</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1787,8 +1930,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>336</yloc>
+      <xloc>1088</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1831,8 +1974,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>736</yloc>
+      <xloc>1088</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1847,7 +1990,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Group by</send_true_to>
+    <send_true_to>Calculator</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -1875,8 +2018,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>144</yloc>
+      <xloc>736</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1919,8 +2062,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>240</yloc>
+      <xloc>1088</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1990,8 +2133,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>144</yloc>
+      <xloc>864</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2007,8 +2150,8 @@
       <schema_name/>
     </partitioning>
     <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows 2</step1>
-    <step2>Sort rows</step2>
+    <step1>Sort by year, month, day</step1>
+    <step2>Sort input by y,m,d</step2>
     <keys_1>
       <key>year</key>
       <key>month</key>
@@ -2028,8 +2171,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>224</yloc>
+      <xloc>496</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2045,8 +2188,8 @@
       <schema_name/>
     </partitioning>
     <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows 3 2</step1>
-    <step2>Sort rows 3</step2>
+    <step1>Sort by hour, min</step1>
+    <step2>Sort input by hour, min</step2>
     <keys_1>
       <key>hour</key>
       <key>minute</key>
@@ -2064,8 +2207,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>464</yloc>
+      <xloc>496</xloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2117,8 +2260,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
-      <yloc>48</yloc>
+      <xloc>320</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2134,8 +2277,8 @@
       <schema_name/>
     </partitioning>
     <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows 4 2</step1>
-    <step2>Sort rows 4</step2>
+    <step1>Sort by code</step1>
+    <step2>Sort input by code</step2>
     <keys_1>
       <key>participant_code</key>
     </keys_1>
@@ -2151,8 +2294,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>144</yloc>
+      <xloc>416</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2237,8 +2380,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>256</yloc>
+      <xloc>864</xloc>
+      <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2253,7 +2396,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <sql>SELECT * FROM dw_pmdata.instant</sql>
     <limit>0</limit>
     <lookup/>
@@ -2387,8 +2530,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
-      <yloc>464</yloc>
+      <xloc>64</xloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2406,16 +2549,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_light</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_stages</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -2428,8 +2578,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>432</yloc>
+      <xloc>1456</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2444,7 +2594,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort deep</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2464,8 +2614,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>144</yloc>
+      <xloc>1344</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2480,7 +2630,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort wake</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2500,8 +2650,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>240</yloc>
+      <xloc>1344</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2516,7 +2666,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort light</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2536,8 +2686,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>432</yloc>
+      <xloc>1344</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2552,7 +2702,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort awake</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2572,8 +2722,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>656</yloc>
+      <xloc>1344</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2588,7 +2738,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort restless</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2608,8 +2758,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>736</yloc>
+      <xloc>1344</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2624,7 +2774,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort rem</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2644,8 +2794,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>336</yloc>
+      <xloc>1344</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2660,7 +2810,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort asleep</step1>
     <step2>Sleep level type input</step2>
     <keys_1>
@@ -2680,13 +2830,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>544</yloc>
+      <xloc>1344</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Merge join 3 2 2</name>
+    <name>Add sleep_bridge_id to fact</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -2696,9 +2846,9 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Sort awake 2 2</step1>
-    <step2>Select values 2 2</step2>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Sort by participant and log</step1>
+    <step2>Sort by participant and log 2</step2>
     <keys_1>
       <key>log_id</key>
       <key>participant_id</key>
@@ -2716,8 +2866,42 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>864</yloc>
+      <xloc>496</xloc>
+      <yloc>880</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sleep_bridge_id</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Create sleep_bridge_id</step1>
+    <step2>Sort by temporary ID</step2>
+    <keys_1>
+      <key>temp_id</key>
+    </keys_1>
+    <keys_2>
+      <key>temp_id</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2813,8 +2997,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>608</yloc>
+      <xloc>752</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2923,8 +3107,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>608</yloc>
+      <xloc>624</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2939,7 +3123,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <sql>SELECT * FROM dw_pmdata.participant
 </sql>
     <limit>0</limit>
@@ -2950,12 +3134,150 @@
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pmdata_path</name>
+        <length>16</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>hostname</name>
+        <length>16</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>database_name</name>
+        <length>16</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>port</name>
+        <length>16</length>
+        <precision>4</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>username</name>
+        <length>16</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>password</name>
+        <length>16</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>participant_id</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>participant_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -2978,7 +3300,7 @@
         <name>code</name>
         <length>5</length>
         <precision>-1</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>code</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3001,7 +3323,7 @@
         <name>age</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>age</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -3024,7 +3346,7 @@
         <name>height</name>
         <length>12</length>
         <precision>-1</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>height</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -3047,7 +3369,7 @@
         <name>gender</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>gender</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3070,7 +3392,7 @@
         <name>group</name>
         <length>1</length>
         <precision>-1</precision>
-        <origin>Instant input 2</origin>
+        <origin>Participant input</origin>
         <comments>group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3097,8 +3419,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
-      <yloc>144</yloc>
+      <xloc>160</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3116,16 +3438,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_rem</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_stages</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3138,8 +3467,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>336</yloc>
+      <xloc>1456</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3177,8 +3506,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
-      <yloc>144</yloc>
+      <xloc>640</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3196,16 +3525,23 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_restless</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_classic</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3218,8 +3554,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>736</yloc>
+      <xloc>1456</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3262,13 +3598,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>464</yloc>
+      <xloc>624</xloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
+    <name>Select fact fields</name>
     <type>SelectValues</type>
     <description/>
     <distribute>N</distribute>
@@ -3281,33 +3617,39 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>min_to_fall_asleep</name>
+        <rename/>
       </field>
       <field>
         <name>min_asleep</name>
+        <rename/>
       </field>
       <field>
         <name>min_awake</name>
+        <rename/>
       </field>
       <field>
         <name>efficiency</name>
+        <rename/>
       </field>
       <field>
         <name>main_sleep</name>
-      </field>
-      <field>
-        <name>duration</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>day_id</name>
+        <rename/>
       </field>
       <field>
         <name>minute_id</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3320,8 +3662,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>624</yloc>
+      <xloc>496</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3339,12 +3681,19 @@
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_bridge_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>duration</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3357,13 +3706,85 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
-      <yloc>864</yloc>
+      <xloc>800</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2 2 3</name>
+    <name>Select sleep_bridge fields</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sleep_bridge_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sleep_type_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>weight</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>736</xloc>
+      <yloc>1040</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select temporary ID</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>temp_id</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>1040</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Remove fields</name>
     <type>SelectValues</type>
     <description/>
     <distribute>N</distribute>
@@ -3375,9 +3796,6 @@
     </partitioning>
     <fields>
       <select_unspecified>N</select_unspecified>
-      <remove>
-        <name>log_id</name>
-      </remove>
       <remove>
         <name>log_id_1</name>
       </remove>
@@ -3394,8 +3812,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>864</yloc>
+      <xloc>368</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3410,7 +3828,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <schema>dw_pmdata</schema>
     <table>sleep</table>
     <commit>1000</commit>
@@ -3478,13 +3896,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>960</yloc>
+      <xloc>256</xloc>
+      <yloc>1040</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sleep fact load 2</name>
+    <name>Sleep bridge load</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -3494,7 +3912,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <schema>dw_pmdata</schema>
     <table>sleep_bridge</table>
     <commit>1000</commit>
@@ -3534,8 +3952,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>1024</yloc>
+      <xloc>384</xloc>
+      <yloc>1040</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3563,7 +3981,7 @@
     <includeNulls>N</includeNulls>
     <rownum_field/>
     <file>
-      <name>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</name>
+      <name>${PMDATA_PATH}</name>
       <filemask>.*sleep.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -3722,8 +4140,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
-      <yloc>48</yloc>
+      <xloc>192</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3738,7 +4156,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>dw_pmdata</connection>
+    <connection>dw_local_server</connection>
     <sql>SELECT * FROM dw_pmdata.sleep_type
 ORDER BY name, level</sql>
     <limit>0</limit>
@@ -3749,12 +4167,150 @@ ORDER BY name, level</sql>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pmdata_path</name>
+        <length>79</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>hostname</name>
+        <length>79</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>database_name</name>
+        <length>79</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>port</name>
+        <length>79</length>
+        <precision>4</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>username</name>
+        <length>79</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>password</name>
+        <length>79</length>
+        <precision>-1</precision>
+        <origin>Get connection vars</origin>
+        <comments/>
+        <conversion_Mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/London</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>sleep_type_id</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Sleep level type input 2</origin>
+        <origin>Sleep level type input</origin>
         <comments>sleep_type_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -3777,7 +4333,7 @@ ORDER BY name, level</sql>
         <name>name</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Sleep level type input 2</origin>
+        <origin>Sleep level type input</origin>
         <comments>name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3800,7 +4356,7 @@ ORDER BY name, level</sql>
         <name>level</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Sleep level type input 2</origin>
+        <origin>Sleep level type input</origin>
         <comments>level</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3827,7 +4383,7 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1184</xloc>
+      <xloc>1344</xloc>
       <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
@@ -3877,8 +4433,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>544</yloc>
+      <xloc>1200</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3927,13 +4483,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>656</yloc>
+      <xloc>1200</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort awake 2</name>
+    <name>Sort by participant, log, sleep_type</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -3985,13 +4541,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>864</yloc>
+      <xloc>1568</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort awake 2 2</name>
+    <name>Sort by participant and log</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4035,8 +4591,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>736</yloc>
+      <xloc>496</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4085,8 +4641,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>144</yloc>
+      <xloc>1200</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4135,8 +4691,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>432</yloc>
+      <xloc>1200</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4185,8 +4741,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>336</yloc>
+      <xloc>1200</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4235,13 +4791,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>736</yloc>
+      <xloc>1200</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows</name>
+    <name>Sort input by y,m,d</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4293,13 +4849,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>224</yloc>
+      <xloc>352</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 2</name>
+    <name>Sort by year, month, day</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4351,63 +4907,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
-      <yloc>224</yloc>
+      <xloc>624</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>hour</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>minute</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>176</xloc>
-      <yloc>464</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 3 2</name>
+    <name>Sort input by hour, min</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4452,12 +4958,62 @@ ORDER BY name, level</sql>
     </remotesteps>
     <GUI>
       <xloc>336</xloc>
-      <yloc>352</yloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 4</name>
+    <name>Sort by hour, min</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>hour</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>minute</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>496</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort input by code</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4493,13 +5049,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>144</yloc>
+      <xloc>304</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 4 2</name>
+    <name>Sort by code</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -4535,8 +5091,50 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>48</yloc>
+      <xloc>416</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort by temporary ID</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>temp_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4585,8 +5183,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1040</xloc>
-      <yloc>240</yloc>
+      <xloc>1200</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4617,8 +5215,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>144</yloc>
+      <xloc>528</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4658,8 +5256,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>608</yloc>
+      <xloc>864</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4699,8 +5297,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>384</yloc>
+      <xloc>864</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4740,13 +5338,13 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>496</yloc>
+      <xloc>864</xloc>
+      <yloc>512</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Unique rows (HashSet)</name>
+    <name>Unique rows (fact)</name>
     <type>UniqueRowsByHashSet</type>
     <description/>
     <distribute>Y</distribute>
@@ -4769,13 +5367,42 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>864</yloc>
+      <xloc>256</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Unique rows (HashSet) 2</name>
+    <name>Get unique rows (sleep_bridge)</name>
+    <type>UniqueRowsByHashSet</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <store_values>N</store_values>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>      </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>1040</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Get unique rows</name>
     <type>UniqueRowsByHashSet</type>
     <description/>
     <distribute>Y</distribute>
@@ -4798,8 +5425,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
-      <yloc>1024</yloc>
+      <xloc>1056</xloc>
+      <yloc>1040</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4817,16 +5444,23 @@ ORDER BY name, level</sql>
     <fields>
       <field>
         <name>log_id</name>
+        <rename/>
       </field>
       <field>
         <name>participant_id</name>
+        <rename/>
       </field>
       <field>
         <name>sleep_type_id</name>
+        <rename/>
       </field>
       <field>
         <name>w_wake</name>
         <rename>weight</rename>
+      </field>
+      <field>
+        <name>total_stages</name>
+        <rename>duration</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -4839,83 +5473,28 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>240</yloc>
+      <xloc>1456</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Concat fields</name>
-    <type>ConcatFields</type>
+    <name>Wait until Sleep bridge load finishes</name>
+    <type>BlockUntilStepsFinish</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <separator/>
-    <enclosure/>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name/>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>participant_id</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>log_id</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-      <targetFieldName>temp_id</targetFieldName>
-      <targetFieldLength>20</targetFieldLength>
-      <removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
+    <steps>
+      <step>
+        <name>Sleep bridge load</name>
+        <CopyNr>0</CopyNr>
+      </step>
+    </steps>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -4925,16 +5504,115 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1200</xloc>
-      <yloc>864</yloc>
+      <xloc>256</xloc>
+      <yloc>960</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 5</name>
-    <type>SortRows</type>
+    <name>Get connection vars</name>
+    <type>GetVariable</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pmdata_path</name>
+        <variable>${PMDATA_PATH}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>hostname</name>
+        <variable>${HOSTNAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>database_name</name>
+        <variable>${DATABASE_NAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>port</name>
+        <variable>${PORT}</variable>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>4</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>username</name>
+        <variable>${USERNAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>password</name>
+        <variable>${PASSWORD}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>16</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort by participant and log 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -4950,7 +5628,15 @@ ORDER BY name, level</sql>
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>temp_id</name>
+        <name>participant_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>log_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -4967,207 +5653,8 @@ ORDER BY name, level</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>976</xloc>
-      <yloc>864</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add sleep_bridge_id</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sleep_bridge_id</valuename>
-    <use_database>N</use_database>
-    <connection>dw_pmdata</connection>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>720</xloc>
-      <yloc>1024</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Get ID from slave server</name>
-    <type>GetSlaveSequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>id</valuename>
-    <slave>slave server name</slave>
-    <seqname>Slave Sequence Name -- To be configured</seqname>
-    <increment>10000</increment>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1808</xloc>
-      <yloc>1156</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2 2 2 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>temp_id</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>976</xloc>
-      <yloc>1024</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows (HashSet) 2 2</name>
-    <type>UniqueRowsByHashSet</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <store_values>N</store_values>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>      </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>848</xloc>
-      <yloc>1024</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join 4</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Add sleep_bridge_id</step1>
-    <step2>Sort rows 5</step2>
-    <keys_1>
-      <key>temp_id</key>
-    </keys_1>
-    <keys_2>
-      <key>temp_id</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>720</xloc>
-      <yloc>864</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2 2 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sleep_bridge_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sleep_type_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>weight</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>576</xloc>
-      <yloc>1024</yloc>
+      <xloc>656</xloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
