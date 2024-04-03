@@ -571,7 +571,7 @@
     <rownum_field/>
     <file>
       <name>${PMDATA_PATH}</name>
-      <filemask/>
+      <filemask>.*exercise.*.json</filemask>
       <exclude_filemask/>
       <file_required>N</file_required>
       <include_subfolders>Y</include_subfolders>
