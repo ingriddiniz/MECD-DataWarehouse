@@ -527,15 +527,28 @@
         <set_empty_string>N</set_empty_string>
         <field_null_if/>
       </field>
+      <field>
+        <name>dims_path</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
     </fields>
     <data>
       <line>
-        <item>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pmdata</item>
+        <item>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\pmdata</item>
         <item>127.0.0.1</item>
         <item>dw_pmdata</item>
         <item>3306</item>
-        <item>CHANGE_TO_YOUR_USERNAME</item>
-        <item>CHANGE_TO_YOUR_PAAWD</item>
+        <item>root</item>
+        <item>admin</item>
+        <item>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\MECD-DataWarehouse\pdi\dims\</item>
       </line>
     </data>
     <attributes/>
@@ -597,6 +610,12 @@
       <field>
         <field_name>password</field_name>
         <variable_name>PASSWORD</variable_name>
+        <variable_type>JVM</variable_type>
+        <default_value/>
+      </field>
+      <field>
+        <field_name>dims_path</field_name>
+        <variable_name>DIMS_PATH</variable_name>
         <variable_type>JVM</variable_type>
         <default_value/>
       </field>
