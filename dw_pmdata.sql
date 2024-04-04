@@ -54,6 +54,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `dw_pmdata`.`daily` (
   `participant_id` INT NOT NULL,
   `day_id` INT NOT NULL,
+  `meal` VARCHAR(45) NULL,
   `sedentary_minutes` INT NULL,
   `light_active_minutes` VARCHAR(45) NULL,
   `mod_active_minutes` VARCHAR(45) NULL,
