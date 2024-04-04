@@ -293,7 +293,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}heart_rate_zones.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}heart_rate_zones.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -332,7 +332,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}injury.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}injury.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -371,7 +371,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}instant.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}instant.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -410,7 +410,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}meals.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}meals.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -449,7 +449,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}participants.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}participants.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -488,7 +488,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}sleep_level_type.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}sleep_level_type.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -543,13 +543,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>Set DB connection variables and pmdata path</name>
+      <name>Set DB connection variables and paths</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>D:\Documents\FEUP\chairs\year1\data_warehouse\project\osfstorage-archive\MECD-DataWarehouse\pdi\inputs\set_connections.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}inputs${file.separator}set_connections.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>Y</params_from_previous>
@@ -577,8 +577,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>144</xloc>
-      <yloc>288</yloc>
+      <xloc>96</xloc>
+      <yloc>224</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -588,7 +588,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}activity.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}activity.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -616,7 +616,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>240</xloc>
+      <xloc>224</xloc>
       <yloc>96</yloc>
       <attributes_kjc/>
     </entry>
@@ -639,7 +639,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${DIMS_PATH}date.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}dims${file.separator}date.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -719,16 +719,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Start</from>
-      <to>Set DB connection variables and pmdata path</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
-    <hop>
-      <from>Set DB connection variables and pmdata path</from>
+      <from>Set DB connection variables and paths</from>
       <to>Activity Dim Load</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -762,6 +753,15 @@
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Start</from>
+      <to>Set DB connection variables and paths</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>

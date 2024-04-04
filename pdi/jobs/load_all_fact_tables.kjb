@@ -4,6 +4,7 @@
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
   <created_date>2024/04/03 21:28:48.339</created_date>
@@ -305,7 +306,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>32</xloc>
-      <yloc>176</yloc>
+      <yloc>144</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -327,7 +328,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pdi/facts/sleep.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}facts${file.separator}sleep.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -366,7 +367,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pdi/facts/exercise.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}facts${file.separator}exercise.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -405,7 +406,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pdi/facts/daily.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}facts${file.separator}daily.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -433,18 +434,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
+      <xloc>656</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>Set DB connection variables and pmdata path</name>
+      <name>Set DB connection variables and paths</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/igdiniz/FEUP/MECD/2_semester/DW/MECD-DataWarehouse/pdi/inputs/set_connections.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}${file.separator}..${file.separator}inputs${file.separator}set_connections.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>Y</params_from_previous>
@@ -473,7 +474,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>144</xloc>
-      <yloc>240</yloc>
+      <yloc>224</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -507,7 +508,7 @@
     </hop>
     <hop>
       <from>Start</from>
-      <to>Set DB connection variables and pmdata path</to>
+      <to>Set DB connection variables and paths</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -515,7 +516,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Set DB connection variables and pmdata path</from>
+      <from>Set DB connection variables and paths</from>
       <to>Sleep Fact Table Load</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

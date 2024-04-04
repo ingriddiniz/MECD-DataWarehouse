@@ -1718,105 +1718,6 @@
     </GUI>
   </step>
   <step>
-    <name>Get connection vars</name>
-    <type>GetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pmdata_path</name>
-        <variable>${PMDATA_PATH}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>hostname</name>
-        <variable>${HOSTNAME}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>database_name</name>
-        <variable>${DATABASE_NAME}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>port</name>
-        <variable>${PORT}</variable>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>4</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>username</name>
-        <variable>${USERNAME}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>password</name>
-        <variable>${PASSWORD}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>32</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Group by</name>
     <type>GroupBy</type>
     <description/>
@@ -2783,6 +2684,59 @@
     <GUI>
       <xloc>864</xloc>
       <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Regex evaluation</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>.*(p\d{2}).*</script>
+    <matcher>filename</matcher>
+    <resultfieldname>result</resultfieldname>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+      <field>
+        <name>participant_exercise_UK</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+        <currency/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3787,8 +3741,8 @@
     </GUI>
   </step>
   <step>
-    <name>Regex evaluation</name>
-    <type>RegexEval</type>
+    <name>Get connection vars</name>
+    <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3797,32 +3751,78 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <script>.*(p\d{2}).*</script>
-    <matcher>filename</matcher>
-    <resultfieldname>result</resultfieldname>
-    <usevar>N</usevar>
-    <allowcapturegroups>Y</allowcapturegroups>
-    <replacefields>Y</replacefields>
-    <canoneq>N</canoneq>
-    <caseinsensitive>N</caseinsensitive>
-    <comment>N</comment>
-    <dotall>N</dotall>
-    <multiline>N</multiline>
-    <unicode>N</unicode>
-    <unix>N</unix>
     <fields>
       <field>
-        <name>participant_exercise_UK</name>
+        <name>pmdata_path</name>
+        <variable>${PMDATA_PATH}</variable>
         <type>String</type>
         <format/>
-        <group/>
+        <currency/>
         <decimal/>
+        <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>none</trimtype>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>hostname</name>
+        <variable>${HOSTNAME}</variable>
+        <type>String</type>
+        <format/>
         <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>database_name</name>
+        <variable>${DATABASE_NAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>port</name>
+        <variable>${PORT}</variable>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>4</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>username</name>
+        <variable>${USERNAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>password</name>
+        <variable>${PASSWORD}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
     </fields>
     <attributes/>
@@ -3834,7 +3834,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
+      <xloc>32</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>

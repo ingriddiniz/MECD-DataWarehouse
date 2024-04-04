@@ -529,11 +529,6 @@
       <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
-    <hop>
-      <from>Get connection vars</from>
-      <to>Injury inputs</to>
-      <enabled>Y</enabled>
-    </hop>
   </order>
   <step>
     <name>Filter rows</name>
@@ -1050,7 +1045,7 @@
     </remotesteps>
     <GUI>
       <xloc>160</xloc>
-      <yloc>256</yloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
