@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `dw_pmdata`.`daily` (
   `weight` FLOAT NULL,
   `steps` INT NULL,
   `calories` FLOAT NULL,
-  `consumed_alcohol` TINYINT NULL,
+  `consumed_alcohol` VARCHAR(50) NULL,
   INDEX `fk_daily_participant_idx` (`participant_id` ASC) VISIBLE,
   PRIMARY KEY (`participant_id`, `day_id`),
   INDEX `fk_daily_date_idx` (`day_id` ASC) INVISIBLE,
