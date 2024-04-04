@@ -529,11 +529,6 @@
       <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
-    <hop>
-      <from>Get connection vars</from>
-      <to>Reporting inputs</to>
-      <enabled>Y</enabled>
-    </hop>
   </order>
   <step>
     <name>Reporting inputs</name>
@@ -1022,7 +1017,7 @@
     </remotesteps>
     <GUI>
       <xloc>192</xloc>
-      <yloc>336</yloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
