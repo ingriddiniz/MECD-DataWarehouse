@@ -1,0 +1,5 @@
+The license for the PMData dataset is Attribution-NonCommercial 4.0 International.
+
+More information can be found here: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+========================================================================================
